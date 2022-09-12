@@ -20,22 +20,35 @@ const fetchCoordsByIP = function(ip, callback) {
   request(`http://ipwho.is/${ip}`, (error, response, body) => {
     if (error) return callback(error, null);
 
-    const data = JSON.parse(body);
+    const parsed = JSON.parse(body);
 
-    if (!data.success) {
-      const message = `Success status was: ${data.success}. Server message says: ${data.message} when fetching for IP ${data.ip}`;
+    if (!parsed.success) {
+      const message = `Success status was: ${parsed.success}. Server message says: ${parsed.message} when fetching for IP ${parsed.ip}`;
       callback(Error(message), null);
       return;
     }
 
-    const { latitude, longitude } = data;
+    const { latitude, longitude } = parsed;
 
     callback(null, {latitude, longitude});
   });
 };
 
+const fetchISSFlyOverTimes = function(coords, callback) {
+  request(`https://iss-pass.herokuapp.com/json/?lat=${coords.latitude}&lon=${coords.longitude}`, (error, response, body) => {
+    if (error) return callback(error, null);
+
+    const parsed = JSON.parse(body);
+    
+    const timeAndDuration = parsed.response;
+
+    callback(null, timeAndDuration);
+  })
+};
+
 
 module.exports = { 
   fetchMyIP,
-  fetchCoordsByIP 
+  fetchCoordsByIP,
+  fetchISSFlyOverTimes
 };
