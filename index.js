@@ -10,7 +10,6 @@ fetchMyIP((error, ip) => {
   console.log("It worked! Returned IP:" , ip);
 });
 
-// 142.127.5.113
 fetchCoordsByIP("142.127.5.113", (error, coords) => {
   if (error) {
     console.log("It didn't work!", error);
@@ -24,5 +23,5 @@ fetchISSFlyOverTimes({ latitude: 43.653226, longitude: -79.3831843 }, (error, da
     console.log("It didn't work!", error);
     return;
   }
-  console.log("It worked! Returned flyover times:", data)
+  console.log("It worked! Returned flyover times:", data);
 });
